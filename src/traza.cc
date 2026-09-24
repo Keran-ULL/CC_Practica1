@@ -5,7 +5,21 @@
 
 #include "traza.h"
 
+#include <iomanip>
+
 #include "errores.h"
+
+namespace {
+// Anchos de columna de la tabla, en caracteres. Se usan como minimo
+// (std::setw no trunca): un valor mas largo que el ancho simplemente
+// desalinea esa fila en concreto, pero nunca se pierde informacion.
+constexpr int kAnchoIteracion = 6;
+constexpr int kAnchoEstado = 10;
+constexpr int kAnchoCadena = 18;
+constexpr int kAnchoPila = 18;
+constexpr int kAnchoPosibles = 22;
+constexpr int kAnchoElegida = 10;
+}  // namespace
 
 /**
  * @brief Construye una traza que escribe por pantalla.
@@ -39,17 +53,17 @@ std::string Traza::representarSimboloEntrada(char simbolo) {
 }
 
 /**
- * @brief Construye la lista "T2, T5, T7" a partir de unos IDs.
+ * @brief Construye la lista "T2,T5,T7" a partir de unos IDs.
  */
 std::string Traza::listarIds(const std::vector<int>& ids) {
   if (ids.empty()) {
-    return "(ninguna)";
+    return "-";
   }
 
   std::string resultado;
   for (std::size_t i = 0; i < ids.size(); ++i) {
     if (i > 0) {
-      resultado += ", ";
+      resultado += ",";
     }
     resultado += "T" + std::to_string(ids[i]);
   }
@@ -72,11 +86,33 @@ void Traza::listarTransiciones(const std::vector<Transicion>& transiciones) {
 }
 
 /**
- * @brief Registra un intento de aplicar una transicion.
+ * @brief Abre una tabla nueva para trazar una cadena.
  *
- * La transicion elegida se resalta con una flecha delante de la linea y
- * con la etiqueta explicita del ID elegido, para que se distinga a
- * simple vista incluso en un fichero de texto plano.
+ * Reinicia el contador de iteracion a 0 (la primera fila registrada
+ * sera la "1"), para que cada cadena empiece su propia numeracion desde
+ * el principio en vez de continuar la de la cadena anterior.
+ */
+void Traza::comenzarCadena(const std::string& cadena) {
+  iteracion = 0;
+
+  *salida << "\n===== Comprobando cadena: \"" << representar(cadena) << "\" =====\n";
+  *salida << std::left
+          << std::setw(kAnchoIteracion) << "Iter"
+          << std::setw(kAnchoEstado) << "Estado"
+          << std::setw(kAnchoCadena) << "Cadena rest."
+          << std::setw(kAnchoPila) << "Pila (cima-base)"
+          << std::setw(kAnchoPosibles) << "Posibles"
+          << std::setw(kAnchoElegida) << "Elegida"
+          << '\n';
+  *salida << std::string(kAnchoIteracion + kAnchoEstado + kAnchoCadena +
+                              kAnchoPila + kAnchoPosibles + kAnchoElegida,
+                          '-')
+          << '\n';
+}
+
+/**
+ * @brief Registra, como una fila de la tabla, un intento de aplicar una
+ *        transicion.
  */
 void Traza::registrar(const std::string& estado,
                        const std::string& cadenaRestante,
@@ -85,27 +121,26 @@ void Traza::registrar(const std::string& estado,
                        int idTransicionElegida) {
   ++iteracion;
 
-  const std::string elegida = (idTransicionElegida > 0)
-                                   ? ("T" + std::to_string(idTransicionElegida))
-                                   : "(ninguna, callejon sin salida)";
+  const std::string elegida =
+      (idTransicionElegida > 0) ? ("T" + std::to_string(idTransicionElegida)) : "-";
 
-  *salida << "----- Iteracion " << iteracion << " -----\n";
-  *salida << "Estado actual        : " << estado << '\n';
-  *salida << "Cadena restante      : " << representar(cadenaRestante) << '\n';
-  *salida << "Pila (cima->base)    : " << representar(pila) << '\n';
-  *salida << "Transiciones posibles: " << listarIds(idsPosibles) << '\n';
-  *salida << "  -> Transicion elegida: " << elegida << "\n\n";
+  *salida << std::left
+          << std::setw(kAnchoIteracion) << iteracion
+          << std::setw(kAnchoEstado) << estado
+          << std::setw(kAnchoCadena) << representar(cadenaRestante)
+          << std::setw(kAnchoPila) << representar(pila)
+          << std::setw(kAnchoPosibles) << listarIds(idsPosibles)
+          << std::setw(kAnchoElegida) << elegida
+          << '\n';
 }
 
 /**
- * @brief Muestra el resultado final de la simulacion.
+ * @brief Muestra el resultado de comprobar la cadena actual.
  */
 void Traza::mostrarResultado(bool aceptada, const std::vector<int>& camino) {
-  *salida << "===== Resultado =====\n";
   if (aceptada) {
-    *salida << "La cadena ES ACEPTADA.\n";
-    *salida << "Camino de transiciones: " << listarIds(camino) << '\n';
+    *salida << "Resultado: ACEPTADA. Camino: " << listarIds(camino) << '\n';
   } else {
-    *salida << "La cadena NO es aceptada (no existe ningun camino de aceptacion).\n";
+    *salida << "Resultado: NO ACEPTADA (no existe ningun camino de aceptacion).\n";
   }
 }

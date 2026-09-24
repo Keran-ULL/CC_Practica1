@@ -20,9 +20,9 @@ Pila::Pila(char simboloInicial) {
  * simbolo (simbolos[0]) sea el ultimo en apilarse y, por tanto, quede
  * como nueva cima de la pila.
  */
-void Pila::push(const std::string& simbolos) {
-  for (auto it = simbolos.rbegin(); it != simbolos.rend(); ++it) {
-    simbolos.push_back(*it);
+void Pila::push(const std::string& cadena) {
+  for (auto it = cadena.rbegin(); it != cadena.rend(); ++it) {
+    simbolos.push_back(*it);   
   }
 }
 

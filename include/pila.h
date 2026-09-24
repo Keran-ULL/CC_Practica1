@@ -41,7 +41,7 @@ public:
      * @param simbolos Cadena de simbolos a apilar, de izquierda a
      *        derecha; simbolos[0] quedara como nueva cima.
      */
-    void push(const std::string& simbolos);
+    void push(const std::string& cadena);
 
     /**
      * @brief Elimina el simbolo situado en la cima de la pila.

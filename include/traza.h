@@ -4,15 +4,17 @@
  * @brief Declaracion de la clase Traza.
  *
  * Muestra la ejecucion de la simulacion en tres partes:
- *  1) listarTransiciones(): una vez, al principio, el listado completo
- *     de la funcion de transicion (ID + regla), a modo de leyenda.
- *  2) registrar(): una vez por cada intento de aplicar una transicion
- *     (incluidos los caminos fallidos que se descartan al retroceder),
- *     mostrando el estado actual, la cadena restante, la pila, los IDs
- *     de las transiciones posibles y cual de ellas se elige.
- *  3) mostrarResultado(): una vez, al final, si la cadena se acepta y,
- *     en ese caso, el camino de transiciones (por ID) que lleva a la
- *     aceptacion.
+ *  1) listarTransiciones(): una vez, al principio de todo el programa,
+ *     el listado completo de la funcion de transicion (ID + regla), a
+ *     modo de leyenda.
+ *  2) Por cada cadena comprobada: comenzarCadena() abre una tabla nueva
+ *     (con su propia numeracion de iteracion, empezando en 1) y
+ *     registrar() anade una fila por cada intento de aplicar una
+ *     transicion (incluidos los caminos fallidos que se descartan al
+ *     retroceder).
+ *  3) mostrarResultado(): al terminar de comprobar una cadena, si se
+ *     acepta y, en ese caso, el camino de transiciones (por ID) que
+ *     lleva a la aceptacion.
  *
  * Puede escribir a pantalla o a un fichero, segun con que constructor se
  * cree. El simbolo epsilon se representa con el mismo caracter que en
@@ -33,7 +35,7 @@
 /**
  * @class Traza
  * @brief Registro, a pantalla o a fichero, de la ejecucion de la
- *        simulacion.
+ *        simulacion en formato tabla.
  */
 class Traza {
 public:
@@ -59,7 +61,15 @@ public:
   void listarTransiciones(const std::vector<Transicion>& transiciones);
 
   /**
-   * @brief Registra un intento de aplicar una transicion.
+   * @brief Abre una tabla nueva para trazar una cadena, con su propia
+   *        numeracion de iteracion (empieza en 1 para cada cadena).
+   * @param cadena Cadena que se va a comprobar a continuacion.
+   */
+  void comenzarCadena(const std::string& cadena);
+
+  /**
+   * @brief Registra, como una fila de la tabla, un intento de aplicar
+   *        una transicion.
    *
    * @param estado Estado actual.
    * @param cadenaRestante Parte de la cadena de entrada que aun queda
@@ -79,7 +89,7 @@ public:
                  int idTransicionElegida);
 
   /**
-   * @brief Muestra el resultado final de la simulacion.
+   * @brief Muestra el resultado de comprobar la cadena actual.
    *
    * @param aceptada true si la cadena pertenece al lenguaje reconocido.
    * @param camino IDs de las transiciones aplicadas, en orden, a lo
@@ -106,16 +116,16 @@ private:
   static std::string representarSimboloEntrada(char simbolo);
 
   /**
-   * @brief Construye la lista "T2, T5, T7" a partir de unos IDs.
+   * @brief Construye la lista "T2,T5,T7" a partir de unos IDs.
    * @param ids IDs de transicion a listar, en orden.
-   * @return Los IDs formateados y separados por comas, o "(ninguna)" si
-   *         el vector esta vacio.
+   * @return Los IDs formateados y separados por comas, o "-" si el
+   *         vector esta vacio.
    */
   static std::string listarIds(const std::vector<int>& ids);
 
   std::ofstream ficheroSalida;  ///< Fichero de salida, solo si se traza a fichero.
   std::ostream* salida;         ///< Apunta a std::cout o a ficheroSalida, segun el constructor usado.
-  int iteracion;                ///< Numero de iteracion actual, para numerar la tabla.
+  int iteracion;                ///< Numero de iteracion dentro de la tabla de la cadena actual.
 };
 
 #endif  // TRAZA_H
