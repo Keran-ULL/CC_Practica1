@@ -7,7 +7,7 @@
 # funcional con un automata de ejemplo, el modo traza, y la lectura de
 # cadenas por fichero.
 #
-# Uso: ./tests/test.sh   (se puede ejecutar desde cualquier directorio)
+# Uso: ./tests/test.sh   
 
 set -uo pipefail
 
@@ -15,7 +15,6 @@ set -uo pipefail
 PROYECTO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROYECTO_DIR"
 
-# Ajusta esta ruta si tu Makefile genera el ejecutable en otro sitio.
 EJECUTABLE="build/main"
 
 TMP_DIR="$(mktemp -d)"

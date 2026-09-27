@@ -24,17 +24,13 @@ bool Simulador::acepta(const std::string& cadena) const {
   if (traza != nullptr) {
     traza->comenzarCadena(cadena);
   }
-
   Pila pila(automata.getSimboloInicialPila());
   std::vector<std::string> visitados;
   std::vector<int> camino;
-
   const bool aceptada = buscar(automata.getEstadoInicial(), cadena, pila, visitados, camino);
-
   if (traza != nullptr) {
     traza->mostrarResultado(aceptada, camino);
   }
-
   return aceptada;
 }
 
@@ -52,7 +48,6 @@ std::vector<Transicion> Simulador::candidatas(const std::string& estado,
   if (!entrada.empty()) {
     resultado = automata.getTransiciones().aplicables(estado, entrada.front(), tope);
   }
-
   const std::vector<Transicion> epsilon = automata.getTransiciones().aplicablesEpsilon(estado, tope);
   resultado.insert(resultado.end(), epsilon.begin(), epsilon.end());
   return resultado;
@@ -71,16 +66,13 @@ bool Simulador::buscar(const std::string& estado,
   if (std::find(visitados.begin(), visitados.end(), firma) != visitados.end()) {
     return false;
   }
-
   if (entrada.empty() && automata.esFinal(estado)) {
     return true;
   }
-
   std::vector<Transicion> candidatasActuales;
   if (!pila.vacia()) {
     candidatasActuales = candidatas(estado, entrada, pila.cima());
   }
-
   if (candidatasActuales.empty()) {
     if (traza != nullptr) {
       traza->registrar(estado, entrada, pila.aTexto(), {}, 0);
@@ -93,19 +85,15 @@ bool Simulador::buscar(const std::string& estado,
   for (const Transicion& transicion : candidatasActuales) {
     idsPosibles.push_back(transicion.id);
   }
-
   visitados.push_back(firma);
   bool aceptado = false;
-
   for (const Transicion& transicion : candidatasActuales) {
     if (traza != nullptr) {
       traza->registrar(estado, entrada, pila.aTexto(), idsPosibles, transicion.id);
     }
-
     Pila siguientePila = pila;
     siguientePila.pop();
     siguientePila.push(transicion.pila);
-
     const std::string siguienteEntrada = (transicion.simboloEntrada == Transiciones::EPSILON)
                                               ? entrada
                                               : entrada.substr(1);
@@ -117,7 +105,6 @@ bool Simulador::buscar(const std::string& estado,
     }
     camino.pop_back();
   }
-
   visitados.pop_back();
   return aceptado;
 }

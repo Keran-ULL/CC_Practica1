@@ -2,10 +2,6 @@
  * @author Keran Miranda González
  * @file Pila.h
  * @brief Declaracion de la clase Pila.
- *
- * Implementacion propia de una pila de simbolos (no se usa std::stack)
- * para poder copiarla e inspeccionar su contenido con facilidad durante
- * la busqueda en profundidad del simulador y al generar la traza.
  */
 
 #ifndef PILA_H
@@ -13,8 +9,6 @@
 
 #include <string>
 #include <vector>
-
-
 
 /**
  * @class Pila
@@ -35,9 +29,7 @@ public:
 
     /**
      * @brief Apila una cadena de simbolos sobre la cima actual.
-     *
      * Si la cadena esta vacia (equivalente a epsilon) la pila no cambia.
-     *
      * @param simbolos Cadena de simbolos a apilar, de izquierda a
      *        derecha; simbolos[0] quedara como nueva cima.
      */
@@ -79,4 +71,4 @@ private:
     std::vector<char> simbolos;  
 };
 
-#endif  // PILA_H
+#endif  

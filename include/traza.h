@@ -4,21 +4,11 @@
  * @brief Declaracion de la clase Traza.
  *
  * Muestra la ejecucion de la simulacion en tres partes:
- *  1) listarTransiciones(): una vez, al principio de todo el programa,
- *     el listado completo de la funcion de transicion (ID + regla), a
- *     modo de leyenda.
- *  2) Por cada cadena comprobada: comenzarCadena() abre una tabla nueva
- *     (con su propia numeracion de iteracion, empezando en 1) y
- *     registrar() anade una fila por cada intento de aplicar una
- *     transicion (incluidos los caminos fallidos que se descartan al
- *     retroceder).
- *  3) mostrarResultado(): al terminar de comprobar una cadena, si se
- *     acepta y, en ese caso, el camino de transiciones (por ID) que
+ *  1) listarTransiciones(): el listado completo de la funcion de transicion (ID + regla), a modo de leyenda.
+ *  2) Por cada cadena comprobada: comenzarCadena() abre una tabla nueva y añade una fila por cada intento de aplicar una
+ *     transicion (incluidos los caminos fallidos que se descartan al retroceder).
+ *  3) mostrarResultado(): al terminar de comprobar una cadena, si se acepta y, en ese caso, el camino de transiciones (por ID) que
  *     lleva a la aceptacion.
- *
- * Puede escribir a pantalla o a un fichero, segun con que constructor se
- * cree. El simbolo epsilon se representa con el mismo caracter que en
- * los ficheros de entrada, el punto (.).
  */
 
 #ifndef TRAZA_H
@@ -74,8 +64,7 @@ public:
    * @param estado Estado actual.
    * @param cadenaRestante Parte de la cadena de entrada que aun queda
    *        por consumir.
-   * @param pila Contenido actual de la pila, de cima a base (ver
-   *        Pila::aTexto()).
+   * @param pila Contenido actual de la pila, de cima a base 
    * @param idsPosibles IDs de todas las transiciones aplicables desde
    *        la configuracion actual (puede estar vacio si no hay
    *        ninguna, es decir, un callejon sin salida).
@@ -123,9 +112,9 @@ private:
    */
   static std::string listarIds(const std::vector<int>& ids);
 
-  std::ofstream ficheroSalida;  ///< Fichero de salida, solo si se traza a fichero.
-  std::ostream* salida;         ///< Apunta a std::cout o a ficheroSalida, segun el constructor usado.
-  int iteracion;                ///< Numero de iteracion dentro de la tabla de la cadena actual.
+  std::ofstream ficheroSalida;  
+  std::ostream* salida;         
+  int iteracion;                
 };
 
-#endif  // TRAZA_H
+#endif  

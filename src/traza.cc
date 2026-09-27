@@ -10,16 +10,13 @@
 #include "errores.h"
 
 namespace {
-// Anchos de columna de la tabla, en caracteres. Se usan como minimo
-// (std::setw no trunca): un valor mas largo que el ancho simplemente
-// desalinea esa fila en concreto, pero nunca se pierde informacion.
 constexpr int kAnchoIteracion = 6;
 constexpr int kAnchoEstado = 10;
 constexpr int kAnchoCadena = 18;
 constexpr int kAnchoPila = 18;
 constexpr int kAnchoPosibles = 22;
 constexpr int kAnchoElegida = 10;
-}  // namespace
+}  
 
 /**
  * @brief Construye una traza que escribe por pantalla.
@@ -59,7 +56,6 @@ std::string Traza::listarIds(const std::vector<int>& ids) {
   if (ids.empty()) {
     return "-";
   }
-
   std::string resultado;
   for (std::size_t i = 0; i < ids.size(); ++i) {
     if (i > 0) {
@@ -87,14 +83,9 @@ void Traza::listarTransiciones(const std::vector<Transicion>& transiciones) {
 
 /**
  * @brief Abre una tabla nueva para trazar una cadena.
- *
- * Reinicia el contador de iteracion a 0 (la primera fila registrada
- * sera la "1"), para que cada cadena empiece su propia numeracion desde
- * el principio en vez de continuar la de la cadena anterior.
  */
 void Traza::comenzarCadena(const std::string& cadena) {
   iteracion = 0;
-
   *salida << "\n===== Comprobando cadena: \"" << representar(cadena) << "\" =====\n";
   *salida << std::left
           << std::setw(kAnchoIteracion) << "Iter"
@@ -120,10 +111,8 @@ void Traza::registrar(const std::string& estado,
                        const std::vector<int>& idsPosibles,
                        int idTransicionElegida) {
   ++iteracion;
-
   const std::string elegida =
       (idTransicionElegida > 0) ? ("T" + std::to_string(idTransicionElegida)) : "-";
-
   *salida << std::left
           << std::setw(kAnchoIteracion) << iteracion
           << std::setw(kAnchoEstado) << estado
@@ -140,7 +129,8 @@ void Traza::registrar(const std::string& estado,
 void Traza::mostrarResultado(bool aceptada, const std::vector<int>& camino) {
   if (aceptada) {
     *salida << "Resultado: ACEPTADA. Camino: " << listarIds(camino) << '\n';
-  } else {
+  } 
+  else {
     *salida << "Resultado: NO ACEPTADA (no existe ningun camino de aceptacion).\n";
   }
 }

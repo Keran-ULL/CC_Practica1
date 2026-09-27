@@ -26,16 +26,11 @@
 /**
  * @class LectorAutomata
  * @brief Lector del fichero de configuracion de un automata con pila.
- *
- * No mantiene estado propio: todos sus metodos son estaticos, ya que su
- * unica responsabilidad es transformar un fichero de texto en un
- * Automata.
  */
 class LectorAutomata {
 public:
   /**
    * @brief Lee y parsea el fichero de configuracion indicado.
-   *
    * @param ruta Ruta del fichero de texto con la definicion del
    *        automata.
    * @return El Automata construido y validado a partir del fichero.
@@ -87,4 +82,4 @@ private:
   static char aSimbolo(const std::string& palabra, const std::string& contexto);
 };
 
-#endif  // LECTOR_AUTOMATA_H
+#endif  

@@ -1,4 +1,5 @@
 /**
+ * @author Keran Miranda González
  * @file main.cpp
  * @brief Punto de entrada del simulador de un automata con pila (AP).
  *
@@ -44,15 +45,7 @@ void procesarCadena(const Simulador& simulador, const std::string& cadena) {
 
 /**
  * @brief Funcion principal del programa.
- *
- * Se limita a coordinar las distintas clases del proyecto; toda la
- * logica de negocio (parseo, validacion, simulacion) vive en sus
- * propias clases. Cualquier error detectado en cualquiera de las fases
- * (argumentos invalidos, fichero de configuracion mal formado, automata
- * que no cumple la definicion formal, ficheros inaccesibles...) se
- * propaga como una excepcion derivada de ErrorAutomata y se captura aqui
- * de forma centralizada.
- *
+ * Se limita a coordinar las distintas clases del proyecto. 
  * @param argc Numero de argumentos recibidos por linea de comandos.
  * @param argv Vector de argumentos recibidos por linea de comandos.
  * @return 0 si el programa termina correctamente, 1 si se produce algun
@@ -60,15 +53,8 @@ void procesarCadena(const Simulador& simulador, const std::string& cadena) {
  */
 int main(int argc, char* argv[]) {
   try {
-    // 1. Opciones de linea de comandos.
     const Opciones opciones = ArgParser::parsear(argc, argv);
-
-    // 2. Construccion (y autovalidacion) del automata.
     Automata automata = LectorAutomata::leer(opciones.ficheroConfig);
-
-    // 3. Traza opcional: a pantalla o a fichero, segun las opciones. Si
-    //    se activa, se muestra primero el listado completo de
-    //    transiciones, a modo de leyenda para el resto de la traza.
     std::unique_ptr<Traza> traza;
     if (opciones.trace) {
       traza = opciones.ficheroSalida.empty()
@@ -76,11 +62,7 @@ int main(int argc, char* argv[]) {
                   : std::make_unique<Traza>(opciones.ficheroSalida);
       traza->listarTransiciones(automata.getTransiciones().todas());
     }
-
-    // 4. Simulador listo para procesar cadenas (la traza es opcional).
     Simulador simulador(automata, traza.get());
-
-    // 5. Cadenas de entrada: por fichero o por teclado.
     const std::unique_ptr<LectorCadenas> lector =
         opciones.ficheroEntrada.empty()
             ? std::make_unique<LectorCadenas>()
@@ -90,7 +72,8 @@ int main(int argc, char* argv[]) {
     while (lector->siguienteCadena(cadena)) {
       procesarCadena(simulador, cadena);
     }
-  } catch (const ErrorAutomata& error) {
+  } 
+  catch (const ErrorAutomata& error) {
     std::cerr << "Error: " << error.what() << '\n';
     return 1;
   } catch (const std::exception& error) {

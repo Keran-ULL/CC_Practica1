@@ -46,8 +46,6 @@ build/main -config <f> -trace <y|n> [-in <f>] [-out <f>]
 | `-in f`     | No          | Fichero con las cadenas a comprobar (una por línea). Si se omite, se leen por teclado, mostrando el mensaje "Introduzca una cadena". |
 | `-out f`    | No          | Fichero donde escribir la traza. Si se omite, se muestra por pantalla.      |
 
-La compilación y ejecución completa se realiza en consola; el programa
-no implementa ningún entorno gráfico.
 
 ## Formato del fichero de configuración
 

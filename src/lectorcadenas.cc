@@ -3,9 +3,9 @@
  * @brief Implementacion de la clase LectorCadenas.
  */
 
-#include "LectorCadenas.h"
+#include "lectorcadenas.h"
 
-#include "Errores.h"
+#include "errores.h"
 
 /**
  * @brief Construye un lector que lee por teclado.
@@ -25,23 +25,16 @@ LectorCadenas::LectorCadenas(const std::string& rutaFichero) : entrada(nullptr),
 
 /**
  * @brief Obtiene la siguiente cadena de entrada disponible.
- *
- * Se recorta un posible '\r' final (ficheros con final de linea de
- * Windows), pero no se recorta ningun otro espacio: la cadena se pasa
- * tal cual al Simulador.
  */
 bool LectorCadenas::siguienteCadena(std::string& cadena) {
   if (desdeTeclado) {
     std::cout << "Introduzca una cadena (Ctrl+D para terminar): ";
   }
-
   if (!std::getline(*entrada, cadena)) {
     return false;
   }
-
   if (!cadena.empty() && cadena.back() == '\r') {
     cadena.pop_back();
   }
-
   return true;
 }

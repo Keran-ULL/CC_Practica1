@@ -6,8 +6,7 @@
  * Proporciona las cadenas de entrada que el Simulador debe comprobar,
  * leyendolas una por una, bien por teclado (std::cin) o bien de un
  * fichero de texto (una cadena por linea), segun con que constructor se
- * cree. El guion de la practica solo exige soportar uno de los dos
- * metodos a la vez, igual que con Traza.
+ * cree. 
  */
 #ifndef LECTOR_CADENAS_H
 #define LECTOR_CADENAS_H
@@ -37,11 +36,6 @@ public:
   /**
    * @brief Obtiene la siguiente cadena de entrada disponible.
    *
-   * Una linea vacia es una cadena valida (equivale a epsilon), asi que
-   * no se descarta: solo se deja de devolver cadenas cuando se llega al
-   * final de la entrada. Si se esta leyendo por teclado, antes de leer
-   * se muestra un mensaje invitando al usuario a escribir una cadena.
-   *
    * @param cadena Donde se guarda la cadena leida.
    * @return true si se ha leido una cadena, false si no quedan mas
    *         (fin de fichero o fin de la entrada por teclado).
@@ -49,9 +43,9 @@ public:
   bool siguienteCadena(std::string& cadena);
 
 private:
-  std::ifstream ficheroEntrada;  ///< Fichero de entrada, solo si se lee de fichero.
-  std::istream* entrada;         ///< Apunta a std::cin o a ficheroEntrada, segun el constructor usado.
-  bool desdeTeclado;             ///< true si se lee de std::cin, para mostrar el mensaje de espera.
+  std::ifstream ficheroEntrada;  
+  std::istream* entrada;        
+  bool desdeTeclado;             
 };
 
-#endif  // LECTOR_CADENAS_H
+#endif  

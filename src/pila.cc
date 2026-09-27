@@ -15,10 +15,6 @@ Pila::Pila(char simboloInicial) {
 
 /**
  * @brief Apila una cadena de simbolos sobre la cima actual.
- *
- * Se recorre la cadena de derecha a izquierda para que el primer
- * simbolo (simbolos[0]) sea el ultimo en apilarse y, por tanto, quede
- * como nueva cima de la pila.
  */
 void Pila::push(const std::string& cadena) {
   for (auto it = cadena.rbegin(); it != cadena.rend(); ++it) {

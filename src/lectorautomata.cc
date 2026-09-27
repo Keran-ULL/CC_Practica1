@@ -22,14 +22,11 @@ Automata LectorAutomata::leer(const std::string& ruta) {
   if (!fichero.is_open()) {
     throw ErrorFichero("No se ha podido abrir el fichero de configuracion: " + ruta);
   }
-
   std::string linea;
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el conjunto de estados Q");
   }
   std::vector<std::string> estados = dividirEnPalabras(linea);
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el alfabeto de entrada Sigma");
   }
@@ -37,7 +34,6 @@ Automata LectorAutomata::leer(const std::string& ruta) {
   for (const std::string& palabra : dividirEnPalabras(linea)) {
     alfabetoEntrada.agregar(aSimbolo(palabra, "el alfabeto de entrada Sigma"));
   }
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el alfabeto de pila Gamma");
   }
@@ -45,7 +41,6 @@ Automata LectorAutomata::leer(const std::string& ruta) {
   for (const std::string& palabra : dividirEnPalabras(linea)) {
     alfabetoPila.agregar(aSimbolo(palabra, "el alfabeto de pila Gamma"));
   }
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el estado inicial");
   }
@@ -54,7 +49,6 @@ Automata LectorAutomata::leer(const std::string& ruta) {
     throw ErrorFormato("La linea del estado inicial debe contener un unico estado");
   }
   std::string estadoInicial = palabrasEstadoInicial[0];
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el simbolo inicial de pila");
   }
@@ -63,12 +57,10 @@ Automata LectorAutomata::leer(const std::string& ruta) {
     throw ErrorFormato("La linea del simbolo inicial de pila debe contener un unico simbolo");
   }
   char simboloInicialPila = aSimbolo(palabrasSimboloInicial[0], "el simbolo inicial de pila");
-
   if (!leerLineaSignificativa(fichero, linea)) {
     throw ErrorFormato("Falta la linea con el conjunto de estados finales F");
   }
   std::vector<std::string> estadosFinales = dividirEnPalabras(linea);
-
   Transiciones transiciones;
   while (leerLineaSignificativa(fichero, linea)) {
     std::vector<std::string> palabras = dividirEnPalabras(linea);

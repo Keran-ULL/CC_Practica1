@@ -82,24 +82,12 @@ private:
    * @brief Explora recursivamente las transiciones aplicables desde una
    *        configuracion concreta (estado, entrada restante y pila).
    *
-   * Para evitar quedarse colgado en un bucle de transiciones-epsilon
-   * que no progresan, se lleva un registro de las configuraciones ya
-   * visitadas en el camino actual: si una configuracion se repite, se
-   * poda esa rama (no puede aportar nada nuevo, ya que su futuro esta
-   * completamente determinado por la propia configuracion).
-   *
    * @param estado Estado actual.
    * @param entrada Parte de la cadena que aun queda por consumir.
-   * @param pila Contenido actual de la pila (se pasa por copia a
-   *        proposito, para que cada rama de la busqueda tenga su propia
-   *        version independiente).
+   * @param pila Contenido actual de la pila 
    * @param visitados Firmas de las configuraciones visitadas en el
-   *        camino actual de la busqueda; se actualiza durante la
-   *        recursion y se deshacen los cambios al volver (backtracking).
-   * @param camino IDs de las transiciones aplicadas en el camino actual;
-   *        se deshacen al volver solo si la rama no lleva a la
-   *        aceptacion, de forma que si se acepta, camino queda con el
-   *        camino completo que lo demuestra.
+   *        camino actual de la busqueda. 
+   * @param camino IDs de las transiciones aplicadas en el camino actual. 
    * @return true si desde esta configuracion existe algun camino de
    *         aceptacion.
    */
@@ -113,4 +101,4 @@ private:
   Traza* traza;
 };
 
-#endif  // SIMULADOR_H
+#endif  
