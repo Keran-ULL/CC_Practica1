@@ -2,6 +2,7 @@
 
 **Asignatura:** Complejidad Computacional — Curso 2026/27
 **Práctica 1:** Programar un simulador de un autómata con pila
+**Repositorio:** [github.com/Keran-ULL/CC_Practica1](https://github.com/Keran-ULL/CC_Practica1)
 
 ## Objetivo
 
