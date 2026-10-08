@@ -19,11 +19,11 @@
 #include <memory>
 #include <string>
 
-#include "argParser.h"
+#include "argparser.h"
 #include "automata.h"
 #include "errores.h"
-#include "lectorAutomata.h"
-#include "lectorCadenas.h"
+#include "lectorautomata.h"
+#include "lectorcadenas.h"
 #include "simulador.h"
 #include "traza.h"
 
